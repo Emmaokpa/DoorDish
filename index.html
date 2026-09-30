@@ -219,6 +219,134 @@
             </div>
         </section>
 
+        <!-- Feature 5: Customer Reviews & Ratings Section -->
+        <section id="reviews" class="reviews-section">
+            <div class="reviews-container">
+                <div class="reviews-header">
+                    <span class="tag">Guest Experiences</span>
+                    <h2 class="section-title">What Culinary Connoisseurs Say</h2>
+                    <p class="section-subtitle">Real experiences from our valued guests and food enthusiasts.</p>
+                </div>
+
+                <!-- Score Overview & Rating Breakdown -->
+                <div class="reviews-overview-card">
+                    <div class="score-summary">
+                        <div class="big-score">4.9</div>
+                        <div class="stars-row">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="score-sub">Based on <span id="total-reviews-count">128</span> Verified Reviews</p>
+                    </div>
+
+                    <div class="rating-bars">
+                        <div class="bar-row">
+                            <span>5 Stars</span>
+                            <div class="bar-bg"><div class="bar-fill" style="width: 92%;"></div></div>
+                            <span>92%</span>
+                        </div>
+                        <div class="bar-row">
+                            <span>4 Stars</span>
+                            <div class="bar-bg"><div class="bar-fill" style="width: 6%;"></div></div>
+                            <span>6%</span>
+                        </div>
+                        <div class="bar-row">
+                            <span>3 Stars</span>
+                            <div class="bar-bg"><div class="bar-fill" style="width: 2%;"></div></div>
+                            <span>2%</span>
+                        </div>
+                    </div>
+
+                    <div class="write-review-prompt">
+                        <h4>Share Your Experience</h4>
+                        <p>Dined with us recently? We'd love your feedback!</p>
+                        <button class="btn btn-primary" id="open-review-form-btn"><i class="fa-solid fa-pen-to-square"></i> Leave a Review</button>
+                    </div>
+                </div>
+
+                <!-- Review Submission Form (Collapsible) -->
+                <div id="review-form-wrapper" class="review-form-wrapper" style="display: none;">
+                    <h3>Submit Guest Feedback</h3>
+                    <form id="add-review-form">
+                        <div class="form-row">
+                            <div class="input-group">
+                                <input type="text" id="review-author" placeholder="Your Name" required>
+                            </div>
+                            <div class="input-group">
+                                <input type="text" id="review-dish" placeholder="Favorite Dish Enjoyed (e.g. Tomahawk Steak)">
+                            </div>
+                        </div>
+                        <div class="star-rating-select" id="star-rating-select">
+                            <span>Your Rating:</span>
+                            <div class="interactive-stars">
+                                <i class="fa-solid fa-star star-opt active" data-rating="1"></i>
+                                <i class="fa-solid fa-star star-opt active" data-rating="2"></i>
+                                <i class="fa-solid fa-star star-opt active" data-rating="3"></i>
+                                <i class="fa-solid fa-star star-opt active" data-rating="4"></i>
+                                <i class="fa-solid fa-star star-opt active" data-rating="5"></i>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <textarea id="review-text" placeholder="Tell us about the flavors, service, and ambiance..." rows="3" required></textarea>
+                        </div>
+                        <div style="display: flex; gap: 1rem;">
+                            <button type="submit" class="btn btn-primary">Post Review</button>
+                            <button type="button" class="btn btn-outline" id="close-review-form-btn">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Reviews Grid -->
+                <div class="reviews-grid" id="reviews-grid">
+                    <!-- Default Curated Reviews -->
+                    <div class="review-card">
+                        <div class="review-card-header">
+                            <div class="review-author-info">
+                                <h4>Chef Alexander V.</h4>
+                                <span class="verified-badge">✔ Verified Guest</span>
+                            </div>
+                            <div class="review-stars">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                        </div>
+                        <p class="review-body">"The Tomahawk Steak aged 45 days is hands down the finest steak in the city. The truffle fries paired with it was absolute perfection!"</p>
+                        <span class="review-dish-tag">Enjoyed: Tomahawk Steak</span>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-card-header">
+                            <div class="review-author-info">
+                                <h4>Amara N.</h4>
+                                <span class="verified-badge">✔ Verified Guest</span>
+                            </div>
+                            <div class="review-stars">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                        </div>
+                        <p class="review-body">"DoorDish delivery arrived steaming hot in under 30 minutes! The Live Order Tracker kept us updated every step of the way."</p>
+                        <span class="review-dish-tag">Enjoyed: Grilled Lobster Tail</span>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-card-header">
+                            <div class="review-author-info">
+                                <h4>Marcus Sterling</h4>
+                                <span class="verified-badge">✔ Verified Guest</span>
+                            </div>
+                            <div class="review-stars">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                        </div>
+                        <p class="review-body">"Reserved a VIP Booth for our anniversary. The ambiance, wine cellar selection, and custom spice level options made it an unforgettable night."</p>
+                        <span class="review-dish-tag">Enjoyed: Spicy Arrabiata & Tiramisu</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Reservation Section -->
         <section id="reservation" class="reservation">
             <div class="res-container">

@@ -825,7 +825,138 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Feature 5: Customer Reviews & Rating Breakdown ---
+    const openReviewFormBtn = document.getElementById('open-review-form-btn');
+    const closeReviewFormBtn = document.getElementById('close-review-form-btn');
+    const reviewFormWrapper = document.getElementById('review-form-wrapper');
+    const addReviewForm = document.getElementById('add-review-form');
+    const starOpts = document.querySelectorAll('.interactive-stars .star-opt');
+    const reviewsGrid = document.getElementById('reviews-grid');
+    const totalReviewsCountEl = document.getElementById('total-reviews-count');
+
+    let currentRating = 5;
+    let userReviews = JSON.parse(localStorage.getItem('doordish_user_reviews')) || [];
+
+    if (openReviewFormBtn) {
+        openReviewFormBtn.addEventListener('click', () => {
+            if (reviewFormWrapper) reviewFormWrapper.style.display = 'block';
+        });
+    }
+
+    if (closeReviewFormBtn) {
+        closeReviewFormBtn.addEventListener('click', () => {
+            if (reviewFormWrapper) reviewFormWrapper.style.display = 'none';
+        });
+    }
+
+    // Interactive Star Rating Picker
+    starOpts.forEach(star => {
+        star.addEventListener('click', () => {
+            const rating = parseInt(star.getAttribute('data-rating') || 5);
+            currentRating = rating;
+            starOpts.forEach(s => {
+                const r = parseInt(s.getAttribute('data-rating') || 5);
+                s.classList.toggle('active', r <= rating);
+            });
+        });
+    });
+
+    function renderUserReviews() {
+        if (!reviewsGrid) return;
+
+        if (totalReviewsCountEl) {
+            totalReviewsCountEl.innerText = 128 + userReviews.length;
+        }
+
+        userReviews.forEach(rev => {
+            let starsHtml = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= rev.rating) {
+                    starsHtml += '<i class="fa-solid fa-star"></i>';
+                } else {
+                    starsHtml += '<i class="fa-regular fa-star"></i>';
+                }
+            }
+
+            const card = document.createElement('div');
+            card.className = 'review-card';
+            card.innerHTML = `
+                <div class="review-card-header">
+                    <div class="review-author-info">
+                        <h4>${rev.author}</h4>
+                        <span class="verified-badge">✔ Verified Guest</span>
+                    </div>
+                    <div class="review-stars">
+                        ${starsHtml}
+                    </div>
+                </div>
+                <p class="review-body">"${rev.text}"</p>
+                <span class="review-dish-tag">Enjoyed: ${rev.dish || 'Fine Dining Experience'}</span>
+            `;
+            reviewsGrid.prepend(card);
+        });
+    }
+
+    renderUserReviews();
+
+    if (addReviewForm) {
+        addReviewForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const author = document.getElementById('review-author')?.value.trim();
+            const dish = document.getElementById('review-dish')?.value.trim();
+            const text = document.getElementById('review-text')?.value.trim();
+
+            if (!author || !text) return;
+
+            const newReview = {
+                author,
+                dish: dish || 'DoorDish Delicacy',
+                text,
+                rating: currentRating,
+                timestamp: Date.now()
+            };
+
+            userReviews.push(newReview);
+            localStorage.setItem('doordish_user_reviews', JSON.stringify(userReviews));
+
+            addReviewForm.reset();
+            currentRating = 5;
+            starOpts.forEach(s => s.classList.add('active'));
+            if (reviewFormWrapper) reviewFormWrapper.style.display = 'none';
+
+            // Prepend new review card instantly
+            let starsHtml = '';
+            for (let i = 1; i <= 5; i++) {
+                starsHtml += i <= newReview.rating ? '<i class="fa-solid fa-star"></i>' : '<i class="fa-regular fa-star"></i>';
+            }
+            const card = document.createElement('div');
+            card.className = 'review-card';
+            card.innerHTML = `
+                <div class="review-card-header">
+                    <div class="review-author-info">
+                        <h4>${newReview.author}</h4>
+                        <span class="verified-badge">✔ Verified Guest</span>
+                    </div>
+                    <div class="review-stars">
+                        ${starsHtml}
+                    </div>
+                </div>
+                <p class="review-body">"${newReview.text}"</p>
+                <span class="review-dish-tag">Enjoyed: ${newReview.dish}</span>
+            `;
+            if (reviewsGrid) reviewsGrid.prepend(card);
+
+            if (totalReviewsCountEl) {
+                totalReviewsCountEl.innerText = 128 + userReviews.length;
+            }
+
+            showModal('Review Published!', 'Thank you for sharing your experience with DoorDish!');
+        });
+    }
+
 });
+
 
 
 
