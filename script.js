@@ -592,6 +592,107 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Feature 3: Table Reservation Manager ---
+    const resBookingForm = document.getElementById('res-booking-form');
+    const zoneBtns = document.querySelectorAll('.zone-options .zone-btn');
+    const resContainer = document.getElementById('reservations-list-container');
+    let selectedZone = 'Main Dining Room';
+
+    let savedReservations = JSON.parse(localStorage.getItem('doordish_reservations')) || [];
+
+    // Seating Zone Buttons Event
+    zoneBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            zoneBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            selectedZone = btn.getAttribute('data-zone');
+        });
+    });
+
+    function renderReservations() {
+        if (!resContainer) return;
+
+        if (savedReservations.length === 0) {
+            resContainer.innerHTML = '<div class="no-res-msg" style="color: rgba(255,255,255,0.5); font-style: italic; font-size: 0.9rem;">No active reservations found.</div>';
+            return;
+        }
+
+        resContainer.innerHTML = '';
+        savedReservations.forEach((res, index) => {
+            const card = document.createElement('div');
+            card.className = 'res-card-item';
+            card.innerHTML = `
+                <div class="res-card-info">
+                    <span class="res-code">${res.code}</span>
+                    <h4>${res.name} — ${res.guests} ${parseInt(res.guests) === 1 ? 'Guest' : 'Guests'}</h4>
+                    <p><i class="fa-solid fa-chair"></i> ${res.zone} | <i class="fa-solid fa-calendar"></i> ${res.date} at ${res.time}</p>
+                    <p><i class="fa-solid fa-tag"></i> ${res.occasion}</p>
+                </div>
+                <button class="cancel-res-btn" data-index="${index}"><i class="fa-solid fa-trash"></i> Cancel</button>
+            `;
+            resContainer.appendChild(card);
+        });
+
+        // Bind Cancel Buttons
+        const cancelBtns = resContainer.querySelectorAll('.cancel-res-btn');
+        cancelBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const idx = e.currentTarget.getAttribute('data-index');
+                savedReservations.splice(idx, 1);
+                localStorage.setItem('doordish_reservations', JSON.stringify(savedReservations));
+                renderReservations();
+                showModal('Reservation Cancelled', 'Your reservation booking has been cancelled.', 'info');
+            });
+        });
+    }
+
+    renderReservations();
+
+    if (resBookingForm) {
+        resBookingForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('res-name')?.value;
+            const email = document.getElementById('res-email')?.value;
+            const phone = document.getElementById('res-phone')?.value;
+            const guests = document.getElementById('res-guests')?.value;
+            const occasion = document.getElementById('res-occasion')?.value;
+            const date = document.getElementById('res-date')?.value;
+            const time = document.getElementById('res-time')?.value;
+            const notes = document.getElementById('res-notes')?.value;
+
+            const confirmCode = 'RES-' + Math.floor(1000 + Math.random() * 9000);
+
+            const newReservation = {
+                code: confirmCode,
+                name,
+                email,
+                phone,
+                guests,
+                zone: selectedZone,
+                occasion,
+                date,
+                time,
+                notes
+            };
+
+            savedReservations.unshift(newReservation);
+            localStorage.setItem('doordish_reservations', JSON.stringify(savedReservations));
+
+            resBookingForm.reset();
+            zoneBtns.forEach(b => b.classList.toggle('active', b.getAttribute('data-zone') === 'Main Dining Room'));
+            selectedZone = 'Main Dining Room';
+
+            renderReservations();
+
+            showModal(
+                'Table Reserved! 🎉',
+                `Thank you ${name}! Your table in the ${selectedZone} is reserved for ${guests} guests on ${date} at ${time}. Confirmation Code: ${confirmCode}.`
+            );
+        });
+    }
+
 });
+
 
 

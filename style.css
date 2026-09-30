@@ -1655,4 +1655,118 @@ a {
     font-size: 1rem;
 }
 
+/* --- Feature 3: Table Reservation Manager Styles --- */
+.res-custom-group {
+    margin-bottom: 1.2rem;
+}
+
+.res-label {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-light);
+    margin-bottom: 0.5rem;
+}
+
+.zone-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+}
+
+.zone-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-dark);
+    color: var(--text-light);
+    padding: 0.7rem;
+    border-radius: var(--radius-md);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.zone-btn:hover {
+    border-color: var(--accent-orange);
+    background: rgba(244, 107, 34, 0.1);
+}
+
+.zone-btn.active {
+    background: var(--accent-orange);
+    color: white;
+    border-color: var(--accent-orange);
+    box-shadow: 0 4px 12px rgba(244, 107, 34, 0.3);
+}
+
+.res-select {
+    width: 100%;
+    padding: 0.9rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-dark);
+    border-radius: var(--radius-md);
+    color: var(--text-light);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    outline: none;
+    cursor: pointer;
+}
+
+.res-select option {
+    background: var(--bg-very-dark);
+    color: var(--text-light);
+}
+
+.res-card-item {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-dark);
+    border-left: 4px solid var(--accent-orange);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    margin-bottom: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.res-card-info h4 {
+    font-size: 1rem;
+    color: var(--text-light);
+    margin-bottom: 0.2rem;
+}
+
+.res-card-info p {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.7);
+}
+
+.res-code {
+    background: rgba(244, 107, 34, 0.2);
+    color: var(--accent-orange);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: inline-block;
+    margin-bottom: 0.3rem;
+}
+
+.cancel-res-btn {
+    background: transparent;
+    border: 1px solid #e74c3c;
+    color: #e74c3c;
+    padding: 0.4rem 0.8rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cancel-res-btn:hover {
+    background: #e74c3c;
+    color: white;
+}
+
+
 

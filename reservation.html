@@ -49,32 +49,67 @@
                     <h2>Book A Table</h2>
                     <p>Experience upscale dining at its finest. Fill out the reservation form and our team will contact you for confirmation.</p>
                     
-                    <form class="reservation-form">
+                    <form class="reservation-form" id="res-booking-form">
                         <div class="input-group">
-                            <input type="text" placeholder="Full Name" required>
+                            <input type="text" id="res-name" placeholder="Full Name" required>
                         </div>
                         <div class="input-group">
-                            <input type="email" placeholder="Email Address" required>
+                            <input type="email" id="res-email" placeholder="Email Address" required>
                         </div>
                         <div class="form-row">
                             <div class="input-group">
-                                <input type="tel" placeholder="Phone Number" required>
+                                <input type="tel" id="res-phone" placeholder="Phone Number" required>
                             </div>
                             <div class="input-group">
-                                <input type="number" placeholder="Guests" min="1" max="20" required>
+                                <input type="number" id="res-guests" placeholder="Guests" min="1" max="20" required>
                             </div>
                         </div>
-                        <div class="input-group">
-                            <input type="date" required>
+
+                        <!-- Seating Zone Picker -->
+                        <div class="res-custom-group">
+                            <label class="res-label"><i class="fa-solid fa-chair"></i> Select Dining Area / Seating Zone</label>
+                            <div class="zone-options" id="zone-options">
+                                <button type="button" class="zone-btn active" data-zone="Main Dining Room">🏛️ Main Hall</button>
+                                <button type="button" class="zone-btn" data-zone="VIP Private Booth">🌟 VIP Booth</button>
+                                <button type="button" class="zone-btn" data-zone="Covered Terrace">🌿 Terrace</button>
+                                <button type="button" class="zone-btn" data-zone="Wine Cellar Lounge">🍷 Wine Cellar</button>
+                            </div>
                         </div>
-                        <div class="input-group">
-                            <input type="time" required>
+
+                        <!-- Occasion Picker -->
+                        <div class="res-custom-group">
+                            <label class="res-label"><i class="fa-solid fa-glass-cheers"></i> Dining Occasion</label>
+                            <select id="res-occasion" class="res-select">
+                                <option value="Casual Fine Dining">Casual Fine Dining</option>
+                                <option value="Birthday Celebration">🎂 Birthday Celebration</option>
+                                <option value="Anniversary">💍 Romantic Anniversary</option>
+                                <option value="Business Dinner">💼 Business Dinner</option>
+                            </select>
                         </div>
+
+                        <div class="form-row">
+                            <div class="input-group">
+                                <input type="date" id="res-date" required>
+                            </div>
+                            <div class="input-group">
+                                <input type="time" id="res-time" required>
+                            </div>
+                        </div>
+
                         <div class="input-group" style="margin-bottom: 1rem;">
-                            <textarea placeholder="Special Requests (Optional)" rows="3" style="width: 100%; padding: 1rem; background-color: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-dark); border-radius: var(--radius-md); color: var(--text-light); font-family: var(--font-body); resize: vertical;"></textarea>
+                            <textarea id="res-notes" placeholder="Special Requests (e.g., High chair needed, allergies, quiet table...)" rows="2" style="width: 100%; padding: 1rem; background-color: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-dark); border-radius: var(--radius-md); color: var(--text-light); font-family: var(--font-body); resize: vertical;"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block">Confirm Reservation</button>
+                        <button type="submit" class="btn btn-primary btn-block">Confirm Table Reservation</button>
                     </form>
+
+                    <!-- Active Reservations Manager -->
+                    <div class="my-reservations-section" style="margin-top: 3rem; border-top: 1px solid var(--border-dark); padding-top: 2rem;">
+                        <h3 style="color: var(--accent-orange); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;"><i class="fa-solid fa-bookmark"></i> Your Active Bookings</h3>
+                        <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-bottom: 1rem;">Manage your upcoming reservations at DoorDish.</p>
+                        <div id="reservations-list-container">
+                            <div class="no-res-msg" style="color: rgba(255,255,255,0.5); font-style: italic; font-size: 0.9rem;">No upcoming reservations found.</div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="res-image right">
