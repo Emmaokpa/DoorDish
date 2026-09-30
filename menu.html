@@ -25,6 +25,10 @@
                 <a href="contact.html">Contact</a>
             </nav>
             <div class="header-action">
+                <div class="tracker-trigger" id="tracker-trigger" title="Live Order Tracker">
+                    <i class="fa-solid fa-route"></i>
+                    <span id="tracker-badge" class="tracker-badge" style="display:none;">1</span>
+                </div>
                 <div class="cart-trigger" id="cart-trigger">
                     <i class="fa-solid fa-cart-shopping"></i>
                     <span id="cart-count">0</span>
@@ -381,6 +385,68 @@
                         <button id="qty-plus-btn" class="qty-btn">+</button>
                     </div>
                     <button id="add-customized-cart-btn" class="btn btn-primary">Add to Order (₦0)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feature 4: Live Order Tracker Modal -->
+    <div class="modal-overlay" id="tracker-modal">
+        <div class="tracker-content">
+            <button class="customizer-close" id="tracker-close-btn">&times;</button>
+            <div class="tracker-header">
+                <h2><i class="fa-solid fa-motorcycle"></i> Live Order Tracker</h2>
+                <p id="tracker-order-id">Order ID: #DD-0000</p>
+            </div>
+            <div class="tracker-body">
+                <!-- Status Stepper Bar -->
+                <div class="tracker-stepper">
+                    <div class="step-item active" id="step-1">
+                        <div class="step-icon"><i class="fa-solid fa-receipt"></i></div>
+                        <span class="step-label">Received</span>
+                    </div>
+                    <div class="step-line" id="line-1"></div>
+                    <div class="step-item" id="step-2">
+                        <div class="step-icon"><i class="fa-solid fa-fire-burner"></i></div>
+                        <span class="step-label">Preparing</span>
+                    </div>
+                    <div class="step-line" id="line-2"></div>
+                    <div class="step-item" id="step-3">
+                        <div class="step-icon"><i class="fa-solid fa-clipboard-check"></i></div>
+                        <span class="step-label">Quality Check</span>
+                    </div>
+                    <div class="step-line" id="line-3"></div>
+                    <div class="step-item" id="step-4">
+                        <div class="step-icon"><i class="fa-solid fa-person-biking"></i></div>
+                        <span class="step-label">En Route</span>
+                    </div>
+                </div>
+
+                <!-- Live ETA Box -->
+                <div class="eta-box">
+                    <div class="eta-left">
+                        <span class="eta-label">Estimated Delivery</span>
+                        <h3 id="eta-countdown">25 - 35 mins</h3>
+                    </div>
+                    <div class="eta-status-pill" id="eta-status-text">Chef Preparing Your Dish</div>
+                </div>
+
+                <!-- Driver Card -->
+                <div class="driver-card">
+                    <div class="driver-avatar"><i class="fa-solid fa-user-ninja"></i></div>
+                    <div class="driver-info">
+                        <h4>Chidi Okoye <span class="driver-rating">⭐ 4.9</span></h4>
+                        <p>DoorDish VIP Delivery Express</p>
+                    </div>
+                    <a href="tel:+234800000000" class="call-driver-btn"><i class="fa-solid fa-phone"></i> Call</a>
+                </div>
+
+                <!-- Order Items Summary -->
+                <div class="tracker-items-summary">
+                    <h4>Order Summary</h4>
+                    <div id="tracker-summary-list">
+                        <!-- Injected via JS -->
+                    </div>
                 </div>
             </div>
         </div>

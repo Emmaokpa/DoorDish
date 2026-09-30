@@ -268,18 +268,151 @@ document.addEventListener('DOMContentLoaded', () => {
                 showModal('Cart Empty', 'Please add some delicious items to your cart before checking out.', 'info');
                 return;
             }
-            checkoutBtn.innerText = 'Processing...';
+            checkoutBtn.innerText = 'Processing Order...';
             setTimeout(() => {
-                showModal('Order Success!', 'Your premium order has been placed. Sit back and enjoy as we prepare your feast.');
+                const orderId = 'DD-' + Math.floor(1000 + Math.random() * 9000);
+                const orderItems = [...cart];
+                const orderData = {
+                    id: orderId,
+                    items: orderItems,
+                    timestamp: Date.now(),
+                    statusStep: 1
+                };
+
+                localStorage.setItem('doordish_active_order', JSON.stringify(orderData));
+
                 cart = [];
                 localStorage.removeItem('doordish_cart');
                 renderCart();
                 updateCartCount();
                 checkoutBtn.innerText = 'Proceed to Checkout';
-                setTimeout(() => {
-                    toggleCart();
-                }, 500);
+                toggleCart();
+
+                openOrderTracker(orderData);
             }, 1000);
+        });
+    }
+
+    // --- Feature 4: Live Order Tracker ---
+    const trackerTrigger = document.getElementById('tracker-trigger');
+    const trackerModal = document.getElementById('tracker-modal');
+    const trackerCloseBtn = document.getElementById('tracker-close-btn');
+    const trackerBadge = document.getElementById('tracker-badge');
+    const trackerOrderIdEl = document.getElementById('tracker-order-id');
+    const etaCountdownEl = document.getElementById('eta-countdown');
+    const etaStatusTextEl = document.getElementById('eta-status-text');
+    const trackerSummaryListEl = document.getElementById('tracker-summary-list');
+
+    function checkActiveOrderBadge() {
+        const activeOrder = JSON.parse(localStorage.getItem('doordish_active_order'));
+        if (trackerBadge) {
+            if (activeOrder) {
+                trackerBadge.style.display = 'flex';
+            } else {
+                trackerBadge.style.display = 'none';
+            }
+        }
+    }
+
+    checkActiveOrderBadge();
+
+    function openOrderTracker(providedOrder = null) {
+        const order = providedOrder || JSON.parse(localStorage.getItem('doordish_active_order'));
+
+        if (!order) {
+            showModal('No Active Order', 'You currently do not have an active order. Browse our menu to place one!', 'info');
+            return;
+        }
+
+        if (trackerOrderIdEl) trackerOrderIdEl.innerText = `Order ID: #${order.id}`;
+
+        // Render summary items
+        if (trackerSummaryListEl) {
+            trackerSummaryListEl.innerHTML = '';
+            let total = 0;
+            order.items.forEach(item => {
+                const itemTotal = item.price * (item.quantity || 1);
+                total += itemTotal;
+                const row = document.createElement('div');
+                row.className = 'tracker-summary-row';
+                row.innerHTML = `
+                    <span>${item.quantity || 1}x ${item.name}</span>
+                    <span>₦${itemTotal.toLocaleString()}</span>
+                `;
+                trackerSummaryListEl.appendChild(row);
+            });
+            const totalRow = document.createElement('div');
+            totalRow.className = 'tracker-summary-row';
+            totalRow.style.fontWeight = '700';
+            totalRow.style.borderTop = '1px solid #eee';
+            totalRow.style.marginTop = '0.5rem';
+            totalRow.style.paddingTop = '0.5rem';
+            totalRow.innerHTML = `
+                <span>Total Amount:</span>
+                <span style="color:var(--accent-orange);">₦${total.toLocaleString()}</span>
+            `;
+            trackerSummaryListEl.appendChild(totalRow);
+        }
+
+        // Stepper Simulation based on elapsed time
+        const elapsedSec = Math.floor((Date.now() - order.timestamp) / 1000);
+        let currentStep = 1;
+
+        if (elapsedSec > 40) {
+            currentStep = 4; // En Route / Arrived
+        } else if (elapsedSec > 25) {
+            currentStep = 3; // Quality Check
+        } else if (elapsedSec > 10) {
+            currentStep = 2; // Preparing
+        } else {
+            currentStep = 1; // Received
+        }
+
+        updateStepperUI(currentStep);
+
+        if (trackerModal) trackerModal.classList.add('active');
+        checkActiveOrderBadge();
+    }
+
+    function updateStepperUI(step) {
+        for (let i = 1; i <= 4; i++) {
+            const stepEl = document.getElementById(`step-${i}`);
+            const lineEl = document.getElementById(`line-${i}`);
+
+            if (stepEl) {
+                stepEl.classList.toggle('active', i <= step);
+            }
+            if (lineEl) {
+                lineEl.classList.toggle('completed', i < step);
+            }
+        }
+
+        if (etaCountdownEl && etaStatusTextEl) {
+            if (step === 1) {
+                etaCountdownEl.innerText = '30 - 35 mins';
+                etaStatusTextEl.innerText = 'Order Placed';
+            } else if (step === 2) {
+                etaCountdownEl.innerText = '20 - 25 mins';
+                etaStatusTextEl.innerText = 'Chef Preparing Dish';
+            } else if (step === 3) {
+                etaCountdownEl.innerText = '10 - 15 mins';
+                etaStatusTextEl.innerText = 'Quality Inspection Pass';
+            } else {
+                etaCountdownEl.innerText = '5 - 8 mins';
+                etaStatusTextEl.innerText = 'Courier En Route 🛵';
+            }
+        }
+    }
+
+    function closeOrderTracker() {
+        if (trackerModal) trackerModal.classList.remove('active');
+    }
+
+    if (trackerTrigger) trackerTrigger.addEventListener('click', () => openOrderTracker());
+    if (trackerCloseBtn) trackerCloseBtn.addEventListener('click', closeOrderTracker);
+    if (trackerModal) {
+        trackerModal.addEventListener('click', (e) => {
+            if (e.target === trackerModal) closeOrderTracker();
         });
     }
 
