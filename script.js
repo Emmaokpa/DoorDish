@@ -215,13 +215,27 @@ document.addEventListener('DOMContentLoaded', () => {
             cartItemsContainer.innerHTML = '<div class="empty-cart-msg">Your cart is empty.</div>';
         } else {
             cart.forEach((item, index) => {
-                total += item.price;
+                const itemTotal = item.price * (item.quantity || 1);
+                total += itemTotal;
+                
+                let detailsHtml = '';
+                if (item.spice) {
+                    detailsHtml += `<span style="display:block; font-size:0.78rem; color:#666;">🌶️ Spice: ${item.spice}</span>`;
+                }
+                if (item.addons && item.addons.length > 0) {
+                    detailsHtml += `<span style="display:block; font-size:0.78rem; color:#666;">➕ ${item.addons.join(', ')}</span>`;
+                }
+                if (item.notes) {
+                    detailsHtml += `<span style="display:block; font-size:0.78rem; color:#888; font-style:italic;">📝 "${item.notes}"</span>`;
+                }
+
                 const div = document.createElement('div');
                 div.className = 'cart-item-row';
                 div.innerHTML = `
                     <div class="cart-item-info">
-                        <h4>${item.name}</h4>
-                        <p>₦${item.price.toLocaleString()}</p>
+                        <h4>${item.name} ${item.quantity > 1 ? `(x${item.quantity})` : ''}</h4>
+                        ${detailsHtml}
+                        <p>₦${itemTotal.toLocaleString()}</p>
                     </div>
                     <button class="remove-item-btn" data-index="${index}"><i class="fa-solid fa-trash-can"></i></button>
                 `;
@@ -390,5 +404,194 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // --- Feature 2: Food Customizer & Special Instructions Modal ---
+    const customizerModal = document.getElementById('customizer-modal');
+    const customizerCloseBtn = document.getElementById('customizer-close-btn');
+    const customizerImg = document.getElementById('customizer-img');
+    const customizerTitle = document.getElementById('customizer-title');
+    const customizerDesc = document.getElementById('customizer-desc');
+    const customizerBasePriceEl = document.getElementById('customizer-base-price');
+    const spiceBtns = document.querySelectorAll('.spice-btn');
+    const addonInputs = document.querySelectorAll('.addon-input');
+    const customizerNotes = document.getElementById('customizer-notes');
+    const qtyMinusBtn = document.getElementById('qty-minus-btn');
+    const qtyPlusBtn = document.getElementById('qty-plus-btn');
+    const qtyDisplay = document.getElementById('qty-display');
+    const addCustomizedCartBtn = document.getElementById('add-customized-cart-btn');
+
+    let currentItem = {
+        name: '',
+        basePrice: 0,
+        imgSrc: '',
+        desc: '',
+        spice: 'Mild',
+        addons: [],
+        notes: '',
+        quantity: 1
+    };
+
+    function calculateCustomizerTotal() {
+        let addonTotal = 0;
+        addonInputs.forEach(input => {
+            if (input.checked) {
+                addonTotal += parseInt(input.getAttribute('data-addon-price') || 0);
+            }
+        });
+
+        const singleItemPrice = currentItem.basePrice + addonTotal;
+        const finalTotal = singleItemPrice * currentItem.quantity;
+
+        if (addCustomizedCartBtn) {
+            addCustomizedCartBtn.innerText = `Add to Order (₦${finalTotal.toLocaleString()})`;
+        }
+        return finalTotal;
+    }
+
+    function openCustomizerModal(name, basePrice, imgSrc, desc) {
+        if (!customizerModal) return;
+
+        currentItem.name = name;
+        currentItem.basePrice = parseInt(basePrice);
+        currentItem.imgSrc = imgSrc || 'assets/images/chef_special.jpg';
+        currentItem.desc = desc || '';
+        currentItem.spice = 'Mild';
+        currentItem.addons = [];
+        currentItem.notes = '';
+        currentItem.quantity = 1;
+
+        if (customizerTitle) customizerTitle.innerText = name;
+        if (customizerDesc) customizerDesc.innerText = desc || 'Prepared fresh using fine artisan ingredients.';
+        if (customizerImg) customizerImg.src = currentItem.imgSrc;
+        if (customizerBasePriceEl) customizerBasePriceEl.innerText = `Base: ₦${currentItem.basePrice.toLocaleString()}`;
+        if (qtyDisplay) qtyDisplay.innerText = '1';
+        if (customizerNotes) customizerNotes.value = '';
+
+        // Reset Spice Level UI
+        spiceBtns.forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-spice') === 'Mild');
+        });
+
+        // Reset Addons UI
+        addonInputs.forEach(input => {
+            input.checked = false;
+        });
+
+        calculateCustomizerTotal();
+        customizerModal.classList.add('active');
+    }
+
+    function closeCustomizerModal() {
+        if (customizerModal) customizerModal.classList.remove('active');
+    }
+
+    if (customizerCloseBtn) customizerCloseBtn.addEventListener('click', closeCustomizerModal);
+    if (customizerModal) {
+        customizerModal.addEventListener('click', (e) => {
+            if (e.target === customizerModal) closeCustomizerModal();
+        });
+    }
+
+    // Spice Buttons Event
+    spiceBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            spiceBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentItem.spice = btn.getAttribute('data-spice');
+        });
+    });
+
+    // Addon Checkboxes Event
+    addonInputs.forEach(input => {
+        input.addEventListener('change', () => {
+            calculateCustomizerTotal();
+        });
+    });
+
+    // Quantity Buttons
+    if (qtyMinusBtn) {
+        qtyMinusBtn.addEventListener('click', () => {
+            if (currentItem.quantity > 1) {
+                currentItem.quantity--;
+                if (qtyDisplay) qtyDisplay.innerText = currentItem.quantity;
+                calculateCustomizerTotal();
+            }
+        });
+    }
+
+    if (qtyPlusBtn) {
+        qtyPlusBtn.addEventListener('click', () => {
+            currentItem.quantity++;
+            if (qtyDisplay) qtyDisplay.innerText = currentItem.quantity;
+            calculateCustomizerTotal();
+        });
+    }
+
+    // Attach Customizer Click Handler to Dish Item Cards
+    menuCards.forEach(card => {
+        const img = card.querySelector('img');
+        const title = card.querySelector('h3');
+        const orderBtn = card.querySelector('.add-to-cart-btn');
+
+        const triggerCustomizer = (e) => {
+            // Prevent triggering if order button was clicked directly
+            if (e.target.classList.contains('add-to-cart-btn')) return;
+
+            const name = card.getAttribute('data-name') || title?.innerText || 'Special Dish';
+            const price = orderBtn?.getAttribute('data-price') || 5000;
+            const imgSrc = img?.getAttribute('src') || '';
+            const desc = card.getAttribute('data-description') || card.querySelector('p')?.innerText || '';
+
+            openCustomizerModal(name, price, imgSrc, desc);
+        };
+
+        if (img) img.style.cursor = 'pointer';
+        if (title) title.style.cursor = 'pointer';
+
+        card.addEventListener('click', triggerCustomizer);
+    });
+
+    // Add Customized Item to Order Button
+    if (addCustomizedCartBtn) {
+        addCustomizedCartBtn.addEventListener('click', () => {
+            // Collect checked addons
+            const selectedAddons = [];
+            let addonTotal = 0;
+            addonInputs.forEach(input => {
+                if (input.checked) {
+                    const addonName = input.getAttribute('data-addon-name');
+                    const addonPrice = parseInt(input.getAttribute('data-addon-price') || 0);
+                    selectedAddons.push(addonName);
+                    addonTotal += addonPrice;
+                }
+            });
+
+            const finalSinglePrice = currentItem.basePrice + addonTotal;
+            const notesText = customizerNotes ? customizerNotes.value.trim() : '';
+
+            // Add item to cart
+            cart.push({
+                name: currentItem.name,
+                price: finalSinglePrice,
+                spice: currentItem.spice,
+                addons: selectedAddons,
+                notes: notesText,
+                quantity: currentItem.quantity,
+                id: Date.now()
+            });
+
+            localStorage.setItem('doordish_cart', JSON.stringify(cart));
+            updateCartCount();
+            closeCustomizerModal();
+
+            // Open side cart
+            if (!cartSidebar.classList.contains('open')) {
+                toggleCart();
+            } else {
+                renderCart();
+            }
+        });
+    }
+
 });
+
 

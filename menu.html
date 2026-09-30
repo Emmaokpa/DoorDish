@@ -324,6 +324,68 @@
         </div>
     </div>
 
+    <!-- Feature 2: Dish Customizer Modal -->
+    <div class="modal-overlay" id="customizer-modal">
+        <div class="customizer-content">
+            <button class="customizer-close" id="customizer-close-btn">&times;</button>
+            <div class="customizer-header">
+                <img id="customizer-img" src="assets/images/steak.jpg" alt="Dish preview">
+                <div class="customizer-title-area">
+                    <h2 id="customizer-title">Dish Title</h2>
+                    <p id="customizer-desc">Dish description goes here.</p>
+                    <span id="customizer-base-price" class="customizer-price">₦0</span>
+                </div>
+            </div>
+            
+            <div class="customizer-body">
+                <!-- Spice Level -->
+                <div class="customizer-group">
+                    <label class="group-label"><i class="fa-solid fa-pepper-hot"></i> Select Spice Level</label>
+                    <div class="spice-options">
+                        <button class="spice-btn active" data-spice="Mild">Mild</button>
+                        <button class="spice-btn" data-spice="Medium">Medium 🌶️</button>
+                        <button class="spice-btn" data-spice="Extra Hot">Extra Hot 🌶️🌶️</button>
+                    </div>
+                </div>
+
+                <!-- Add-on Extras -->
+                <div class="customizer-group">
+                    <label class="group-label"><i class="fa-solid fa-plus-circle"></i> Premium Add-ons & Sides</label>
+                    <div class="addon-options">
+                        <label class="addon-checkbox">
+                            <input type="checkbox" class="addon-input" data-addon-name="Extra Truffle Dip" data-addon-price="1200">
+                            <span>Extra Truffle Dip (+₦1,200)</span>
+                        </label>
+                        <label class="addon-checkbox">
+                            <input type="checkbox" class="addon-input" data-addon-name="Garlic Herb Bread" data-addon-price="1500">
+                            <span>Garlic Herb Bread (+₦1,500)</span>
+                        </label>
+                        <label class="addon-checkbox">
+                            <input type="checkbox" class="addon-input" data-addon-name="Parmesan Shavings" data-addon-price="1000">
+                            <span>Parmesan Shavings (+₦1,000)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Kitchen Instructions -->
+                <div class="customizer-group">
+                    <label class="group-label" for="customizer-notes"><i class="fa-solid fa-pen"></i> Kitchen Special Instructions</label>
+                    <textarea id="customizer-notes" placeholder="e.g. Extra crisp, dressing on the side, no onions..." rows="2"></textarea>
+                </div>
+
+                <!-- Quantity Control & Add Button -->
+                <div class="customizer-footer">
+                    <div class="quantity-selector">
+                        <button id="qty-minus-btn" class="qty-btn">-</button>
+                        <span id="qty-display">1</span>
+                        <button id="qty-plus-btn" class="qty-btn">+</button>
+                    </div>
+                    <button id="add-customized-cart-btn" class="btn btn-primary">Add to Order (₦0)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
