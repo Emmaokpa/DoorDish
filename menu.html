@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu - DoorDish Premium Dining</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="logo.png">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <img src="logo.png" alt="DoorDish Logo">
+                <span class="logo-text">DoorDish</span>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="menu.html" class="active">Menu</a>
+                <a href="reservation.html">Reservation</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <div class="header-action">
+                <div class="cart-trigger" id="cart-trigger">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="cart-count">0</span>
+                </div>
+                <a href="menu.html" class="btn btn-primary">Order Online</a>
+            </div>
+            <div class="mobile-menu-btn" id="mobile-menu-trigger">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <main class="page-main">
+        <!-- Page Title -->
+        <section class="page-hero">
+            <div class="page-hero-content">
+                <h1>Our Exquisite Menu</h1>
+                <p>Explore a symphony of flavors crafted specifically for the finest palates.</p>
+            </div>
+        </section>
+
+        <!-- Full Menu Section -->
+        <section class="full-menu">
+            <div class="full-menu-container">
+                
+                <!-- Menu Search & Filter Controls -->
+                <div class="menu-controls">
+                    <div class="menu-search-wrapper">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" id="menu-search-input" class="menu-search-input" placeholder="Search dishes, ingredients, or flavors...">
+                        <button id="clear-search-btn" class="clear-search-btn" style="display:none;"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+
+                    <div class="filter-toolbar">
+                        <div class="category-tabs" id="category-tabs">
+                            <button class="filter-btn active" data-category="all">All Dishes</button>
+                            <button class="filter-btn" data-category="appetizers">Appetizers</button>
+                            <button class="filter-btn" data-category="mains">Main Courses</button>
+                            <button class="filter-btn" data-category="desserts">Desserts</button>
+                            <button class="filter-btn" data-category="beverages">Beverages</button>
+                        </div>
+
+                        <div class="dietary-filters" id="dietary-filters">
+                            <span class="dietary-label"><i class="fa-solid fa-filter"></i> Dietary:</span>
+                            <button class="dietary-chip active" data-dietary="all">All</button>
+                            <button class="dietary-chip" data-dietary="vegetarian">🌱 Vegetarian</button>
+                            <button class="dietary-chip" data-dietary="gluten-free">🌾 Gluten-Free</button>
+                            <button class="dietary-chip" data-dietary="spicy">🔥 Spicy</button>
+                            <button class="dietary-chip" data-dietary="chef-special">⭐ Chef's Special</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="no-results-msg" class="no-results-msg" style="display: none;">
+                    <i class="fa-solid fa-utensils"></i>
+                    <h3>No matching dishes found</h3>
+                    <p>Try adjusting your search terms or clearing selected dietary filters.</p>
+                    <button class="btn btn-outline" id="reset-filters-btn">Reset All Filters</button>
+                </div>
+
+                <!-- Category 1: Appetizers -->
+                <div class="menu-category" data-category-group="appetizers">
+                    <h2 class="category-title">Appetizers</h2>
+                    <div class="menu-grid">
+                        
+                        <div class="menu-item-card" data-category="appetizers" data-dietary="vegetarian chef-special" data-name="truffle fries" data-description="crispy thick-cut potatoes tossed in parmesan and truffle oil">
+                            <div class="item-card-img">
+                                <img src="assets/images/truffle_fries.jpg" alt="Premium Truffle Fries" loading="lazy" decoding="async">
+                                <div class="item-badges">
+                                    <span class="badge badge-veg">🌱 Veg</span>
+                                    <span class="badge badge-star">⭐ Chef Special</span>
+                                </div>
+                            </div>
+                            <div class="item-card-content">
+                                <h3>Truffle Fries</h3>
+                                <p>Crispy thick-cut potatoes tossed in parmesan and truffle oil.</p>
+                                <div class="item-card-footer">
+                                    <span class="price">₦4,500</span>
+                                    <button class="btn btn-primary add-to-cart-btn" data-name="Truffle Fries" data-price="4500">Order</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="menu-item-card" data-category="appetizers" data-dietary="gluten-free" data-name="crispy calamari" data-description="lightly dusted calamari rings served with lemon dill aioli">
+                            <div class="item-card-img">
+                                <img src="assets/images/calamari.jpg" alt="Fresh Crispy Calamari" loading="lazy" decoding="async">
+                                <div class="item-badges">
+                                    <span class="badge badge-gf">🌾 Gluten-Free</span>
+                                </div>
+                            </div>
+                            <div class="item-card-content">
+                                <h3>Crispy Calamari</h3>
+                                <p>Lightly dusted calamari rings served with lemon dill aioli.</p>
+                                <div class="item-card-footer">
+                                    <span class="price">₦6,200</span>
+                                    <button class="btn btn-primary add-to-cart-btn" data-name="Crispy Calamari" data-price="6200">Order</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Category 2: Mains -->
+                <div class="menu-category" data-category-group="mains">
+                    <h2 class="category-title">Main Courses</h2>
+                    <div class="menu-grid">
+                        
+                        <div class="menu-item-card" data-category="mains" data-dietary="chef-special gluten-free" data-name="tomahawk steak" data-description="premium ribeye aged 45 days served with garlic herb butter">
+                            <div class="item-card-img">
+                                <img src="assets/images/steak.jpg" alt="Flame-Grilled Tomahawk Steak" loading="lazy" decoding="async">
+                                <div class="item-badges">
+                                    <span class="badge badge-star">⭐ Chef Special</span>
+                                    <span class="badge badge-gf">🌾 Gluten-Free</span>
+                                </div>
+                            </div>
+                            <div class="item-card-content">
+                                <h3>Tomahawk Steak</h3>
+                                <p>Premium ribeye aged 45 days, served with garlic herb butter.</p>
+                                <div class="item-card-footer">
+                                    <span class="price">₦24,500</span>
+                                    <button class="btn btn-primary add-to-cart-btn" data-name="Tomahawk Steak" data-price="24500">Order</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="menu-item-card" data-category="mains" data-dietary="gluten-free" data-name="grilled lobster tail" data-description="atlantic lobster charcoal grilled with lemon butter sauce">
+                            <div class="item-card-img">
+                                <img src="assets/images/lobster.jpg" alt="Buttery Grilled Lobster Tail" loading="lazy" decoding="async">
+                                <div class="item-badges">
+                                    <span class="badge badge-gf">🌾 Gluten-Free</span>
+                                </div>
+                            </div>
+                            <div class="item-card-content">
+                                <h3>Grilled Lobster Tail</h3>
+                                <p>Atlantic lobster charcoal grilled with lemon butter sauce.</p>
+                                <div class="item-card-footer">
+                                    <span class="price">₦18,200</span>
+                                    <button class="btn btn-primary add-to-cart-btn" data-name="Grilled Lobster Tail" data-price="18200">Order</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="menu-item-card" data-category="mains" data-dietary="spicy vegetarian" data-name="spicy arrabiata" data-description="artisan pasta in a fiery fresh tomato and basil sauce">
+                            <div class="item-card-img">
+                                <img src="assets/images/arrabiata.jpg" alt="Handcrafted Spicy Arrabiata" loading="lazy" decoding="async">
+                                <div class="item-badges">
+                                    <span class="badge badge-spicy">🔥 Spicy</span>
+                                    <span class="badge badge-veg">🌱 Veg</span>
+                                </div>
+                            </div>
+                            <div class="item-card-content">
+                                <h3>Spicy Arrabiata</h3>
+                                <p>Artisan pasta in a fiery fresh tomato and basil sauce.</p>
+                                <div class="item-card-footer">
+                                    <span class="price">₦8,200</span>
+                                    <button class="btn btn-primary add-to-cart-btn" data-name="Spicy Arrabiata" data-price="8200">Order</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Category 3: Desserts -->
+                <div class="menu-category" data-category-group="desserts">
+                    <h2 class="category-title">Desserts</h2>
+                    <div class="menu-grid">
+                        
+                        <div class="menu-item-card" data-category="desserts" data-dietary="vegetarian chef-special" data-name="artisan tiramisu" data-description="classic italian mascarpone layered with espresso soaked ladyfingers">
+                            <div class="item-card-img">
+                                <img src="assets/images/pasta.jpg" alt="Artisan Tiramisu" loading="lazy" decoding="async">
+                                <div class="item-badges">
+                                    <span class="badge badge-star">⭐ Chef Special</span>
+                                    <span class="badge badge-veg">🌱 Veg</span>
+                                </div>
+                            </div>
+                            <div class="item-card-content">
+                                <h3>Artisan Tiramisu</h3>
+                                <p>Classic Italian mascarpone layered with espresso-soaked ladyfingers.</p>
+                                <div class="item-card-footer">
+                                    <span class="price">₦5,800</span>
+                                    <button class="btn btn-primary add-to-cart-btn" data-name="Artisan Tiramisu" data-price="5800">Order</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="menu-item-card" data-category="desserts" data-dietary="gluten-free vegetarian" data-name="chocolate lava cake" data-description="rich warm dark chocolate molten cake with vanilla bean gelato">
+                            <div class="item-card-img">
+                                <img src="assets/images/appetizer.jpg" alt="Chocolate Lava Cake" loading="lazy" decoding="async">
+                                <div class="item-badges">
+                                    <span class="badge badge-gf">🌾 Gluten-Free</span>
+                                    <span class="badge badge-veg">🌱 Veg</span>
+                                </div>
+                            </div>
+                            <div class="item-card-content">
+                                <h3>Molten Chocolate Cake</h3>
+                                <p>Rich warm dark chocolate molten cake served with vanilla bean gelato.</p>
+                                <div class="item-card-footer">
+                                    <span class="price">₦6,500</span>
+                                    <button class="btn btn-primary add-to-cart-btn" data-name="Molten Chocolate Cake" data-price="6500">Order</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Category 4: Beverages -->
+                <div class="menu-category" data-category-group="beverages">
+                    <h2 class="category-title">Beverages</h2>
+                    <div class="menu-grid">
+                        
+                        <div class="menu-item-card" data-category="beverages" data-dietary="vegetarian gluten-free" data-name="truffle sparkle lemonade" data-description="freshly squeezed citrus infused with white truffle essence and sparkling soda">
+                            <div class="item-card-img">
+                                <img src="assets/images/chef_special.jpg" alt="Truffle Sparkle Lemonade" loading="lazy" decoding="async">
+                                <div class="item-badges">
+                                    <span class="badge badge-veg">🌱 Veg</span>
+                                    <span class="badge badge-gf">🌾 Gluten-Free</span>
+                                </div>
+                            </div>
+                            <div class="item-card-content">
+                                <h3>Truffle Sparkle Lemonade</h3>
+                                <p>Freshly squeezed citrus infused with white truffle essence & sparkling soda.</p>
+                                <div class="item-card-footer">
+                                    <span class="price">₦3,500</span>
+                                    <button class="btn btn-primary add-to-cart-btn" data-name="Truffle Sparkle Lemonade" data-price="3500">Order</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Side Cart Modal -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h2>Your Order</h2>
+            <button class="close-cart-btn"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="cart-items" id="cart-items-container">
+            <!-- Items injected by JS -->
+            <div class="empty-cart-msg">Your cart is empty.</div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total-row">
+                <span>Total:</span>
+                <span id="cart-total">₦0</span>
+            </div>
+            <button class="btn btn-primary btn-block checkout-btn">Proceed to Checkout</button>
+        </div>
+    </div>
+    <div class="cart-overlay" id="cart-overlay"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <div class="logo">
+                    <img src="logo.png" alt="DoorDish Logo">
+                    <span class="logo-text">DoorDish</span>
+                </div>
+                <p>Elevating the standard of online dining and premium delivery.</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="menu.html">Menu</a>
+                <a href="reservation.html">Reservation</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="footer-social">
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 DoorDish. Premium Template.</p>
+        </div>
+    </footer>
+
+    <!-- General Purpose Modal -->
+    <div class="modal-overlay" id="global-modal">
+        <div class="modal-content">
+            <span class="modal-close" id="modal-close-btn">&times;</span>
+            <div class="modal-icon" id="modal-icon">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h2 class="modal-title" id="modal-title">Success</h2>
+            <p class="modal-text" id="modal-text">Your request has been processed successfully.</p>
+            <button class="btn btn-primary" id="modal-confirm-btn">Great!</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
